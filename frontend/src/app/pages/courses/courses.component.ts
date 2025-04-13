@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { CourseService, Course } from '../../services/course.service';
 
 @Component({
-  selector: 'app-courses',
+  selector: 'cp-courses',
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './courses.component.html',

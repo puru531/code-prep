@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-landing',
+  selector: 'cp-landing',
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './landing.component.html',

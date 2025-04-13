@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { MarkdownService } from '../../services/markdown.service';
 
 @Component({
-  selector: 'app-admin-dashboard',
+  selector: 'cp-admin-dashboard',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-dashboard.component.html',

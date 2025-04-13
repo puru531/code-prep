@@ -6,7 +6,7 @@ import { MarkdownService } from '../../services/markdown.service';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-course-detail',
+  selector: 'cp-course-detail',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './course-detail.component.html',

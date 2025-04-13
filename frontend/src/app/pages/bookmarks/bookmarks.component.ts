@@ -6,7 +6,7 @@ import { MarkdownService } from '../../services/markdown.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-bookmarks',
+  selector: 'cp-bookmarks',
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './bookmarks.component.html',

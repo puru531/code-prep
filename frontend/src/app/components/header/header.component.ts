@@ -6,7 +6,7 @@ import { ThemeService } from '../../services/theme.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-header',
+  selector: 'cp-header',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',

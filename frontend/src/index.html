@@ -1,29 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>CodePrep</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script>
-    // Check for dark mode preference or stored setting
-    (function() {
-      const storageKey = 'theme-preference';
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const storedTheme = localStorage.getItem(storageKey);
-      const isDark = storedTheme === 'dark' || (storedTheme === null && prefersDark);
-      
-      // Apply class to html element immediately to avoid theme flicker
-      if (isDark) {
-        document.documentElement.classList.add('dark');
-      }
-    })();
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>CodePrep</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script>
+      // Check for dark mode preference or stored setting
+      (function () {
+        const storageKey = "theme-preference";
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        const storedTheme = localStorage.getItem(storageKey);
+        const isDark =
+          storedTheme === "dark" || (storedTheme === null && prefersDark);
+
+        // Apply class to html element immediately to avoid theme flicker
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+    <cp-root></cp-root>
+  </body>
 </html>
