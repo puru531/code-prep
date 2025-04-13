@@ -1,0 +1,124 @@
+<header class="bg-white dark:bg-gray-800 shadow-md">
+  <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <a routerLink="/" class="flex items-center space-x-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+      <span class="text-xl font-bold text-gray-900 dark:text-white">CodePrep</span>
+    </a>
+
+    <!-- Mobile menu button -->
+    <button (click)="toggleMenu()" class="md:hidden p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+      <svg *ngIf="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg *ngIf="isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Desktop navigation -->
+    <div class="hidden md:flex md:items-center md:space-x-6">
+      <a routerLink="/courses" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Courses</a>
+      
+      <ng-container *ngIf="authService.isLoggedIn">
+        <a routerLink="/bookmarks" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">My Bookmarks</a>
+      </ng-container>
+      
+      <ng-container *ngIf="authService.isAdmin">
+        <a routerLink="/admin-dashboard" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Admin</a>
+      </ng-container>
+      
+      <!-- Theme Toggle Button -->
+      <button (click)="toggleTheme()" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+        <svg *ngIf="!isDarkMode" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+        </svg>
+        <svg *ngIf="isDarkMode" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+        </svg>
+      </button>
+      
+      <!-- Auth buttons -->
+      <ng-container *ngIf="!authService.isLoggedIn">
+        <a routerLink="/login" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Log In</a>
+      </ng-container>
+      
+      <!-- User menu -->
+      <div *ngIf="authService.isLoggedIn" class="relative">
+        <button class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+          <span>{{ authService.currentUser?.name }}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+        
+        <!-- Dropdown menu -->
+        <div class="absolute right-0 mt-2 w-48 py-2 bg-white dark:bg-gray-800 rounded-md shadow-xl z-50">
+          <a routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</a>
+          <a href="javascript:void(0)" (click)="logout()" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Log Out</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div *ngIf="isMenuOpen" class="fixed inset-0 z-50 md:hidden">
+      <div class="fixed inset-0 bg-gray-600 bg-opacity-75" (click)="toggleMenu()"></div>
+      
+      <nav class="fixed top-0 right-0 bottom-0 flex flex-col w-64 max-w-sm py-6 px-6 bg-white dark:bg-gray-800 border-r overflow-y-auto">
+        <div class="flex items-center justify-between mb-8">
+          <a routerLink="/" class="flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-xl font-bold text-gray-900 dark:text-white">CodePrep</span>
+          </a>
+          <button (click)="toggleMenu()" class="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <div class="flex flex-col space-y-6">
+          <a routerLink="/courses" (click)="toggleMenu()" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Courses</a>
+          
+          <ng-container *ngIf="authService.isLoggedIn">
+            <a routerLink="/bookmarks" (click)="toggleMenu()" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">My Bookmarks</a>
+          </ng-container>
+          
+          <ng-container *ngIf="authService.isAdmin">
+            <a routerLink="/admin-dashboard" (click)="toggleMenu()" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Admin</a>
+          </ng-container>
+          
+          <div class="flex items-center justify-between text-gray-600 dark:text-gray-300">
+            <span>Dark Mode</span>
+            <button (click)="toggleTheme()" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+              <svg *ngIf="!isDarkMode" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+              <svg *ngIf="isDarkMode" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+          
+          <div class="border-t dark:border-gray-700 pt-6">
+            <ng-container *ngIf="!authService.isLoggedIn">
+              <div class="flex flex-col space-y-4">
+                <a routerLink="/login" (click)="toggleMenu()" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Log In</a>
+              </div>
+            </ng-container>
+            
+            <div *ngIf="authService.isLoggedIn" class="flex flex-col space-y-4">
+              <div class="text-gray-600 dark:text-gray-300 font-medium">{{ authService.currentUser?.name }}</div>
+              <a routerLink="/profile" (click)="toggleMenu()" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Profile</a>
+              <a href="javascript:void(0)" (click)="logout()" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Log Out</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </nav>
+</header>

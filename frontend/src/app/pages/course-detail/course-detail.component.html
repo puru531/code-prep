@@ -1,0 +1,94 @@
+<div class="bg-gray-50 dark:bg-gray-900 min-h-screen py-12">
+  <div class="container mx-auto px-4">
+    <!-- Loading state -->
+    <div *ngIf="loading" class="flex justify-center py-16">
+      <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-600"></div>
+    </div>
+
+    <!-- Error message -->
+    <div *ngIf="error" class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded relative mb-6">
+      {{ error }}
+    </div>
+
+    <!-- Course content -->
+    <div *ngIf="course && !loading">
+      <!-- Course header -->
+      <div class="flex flex-col md:flex-row justify-between items-start mb-8">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">{{ course.name }}</h1>
+          <p class="text-gray-600 dark:text-gray-400">{{ course.description || '' }}</p>
+        </div>
+        <div *ngIf="getCourseImage()" class="md:ml-6 mt-4 md:mt-0">
+          <img [src]="getCourseImage()" [alt]="course.name" class="w-full md:w-48 h-auto rounded-lg shadow-md">
+        </div>
+      </div>
+
+      <!-- Two column layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Topics sidebar -->
+        <div class="lg:col-span-1">
+          <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Topics</h2>
+            
+            <div *ngIf="topics.length === 0" class="text-gray-500 dark:text-gray-400 text-center py-4">
+              No topics available for this course.
+            </div>
+            
+            <ul *ngIf="topics.length > 0" class="space-y-2">
+              <li *ngFor="let topic of topics" 
+                  [class.bg-blue-50]="selectedTopic?.id === topic.id"
+                  [class.dark:bg-blue-900]="selectedTopic?.id === topic.id"
+                  class="p-3 rounded-md cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
+                  (click)="selectTopic(topic)">
+                <div class="flex justify-between items-center">
+                  <h3 class="font-medium text-gray-900 dark:text-white">{{ topic.title }}</h3>
+                  
+                  <div class="flex space-x-2">
+                    <!-- Like button -->
+                    <button (click)="toggleLike(topic, $event)" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                      <svg *ngIf="!topic.isLiked" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                      </svg>
+                      <svg *ngIf="topic.isLiked" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+                      </svg>
+                      <span class="ml-1 text-sm">{{ topic.likes }}</span>
+                    </button>
+                    
+                    <!-- Bookmark button -->
+                    <button (click)="toggleBookmark(topic, $event)" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                      <svg *ngIf="!topic.isBookmarked" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      </svg>
+                      <svg *ngIf="topic.isBookmarked" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Topic content -->
+        <div class="lg:col-span-2">
+          <div *ngIf="!selectedTopic" class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 text-center">
+            <p class="text-gray-600 dark:text-gray-400">
+              Select a topic from the list to view its content.
+            </p>
+          </div>
+          
+          <div *ngIf="selectedTopic" class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{{ selectedTopic.title }}</h2>
+            
+            <!-- Markdown content -->
+            <div class="prose dark:prose-invert max-w-none">
+              <div [innerHTML]="markdownService.parse(selectedTopic.content)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

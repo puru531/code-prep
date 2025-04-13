@@ -1,0 +1,56 @@
+<div class="bg-gray-50 dark:bg-gray-900 min-h-screen py-12">
+  <div class="container mx-auto px-4">
+    <!-- Header -->
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Frontend Interview Courses</h1>
+      <p class="text-gray-600 dark:text-gray-300">Explore our comprehensive courses to prepare for your next frontend interview</p>
+    </div>
+
+    <!-- Loading state -->
+    <div *ngIf="loading" class="flex justify-center py-8">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400"></div>
+    </div>
+
+    <!-- Error state -->
+    <div *ngIf="error && !loading" class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded relative mb-6">
+      {{ error }}
+    </div>
+
+    <!-- Courses grid -->
+    <div *ngIf="!loading && courses.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div *ngFor="let course of courses" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+        <a [routerLink]="['/courses', course.id]" class="block">
+          <div class="relative h-48 overflow-hidden">
+            <!-- Use image or imageUrl -->
+            <img *ngIf="getImageUrl(course)" 
+                 [src]="getImageUrl(course)"
+                 [alt]="course.name"
+                 class="w-full h-full object-cover">
+            
+            <!-- Fallback for no image -->
+            <div *ngIf="!getImageUrl(course)" class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+              <span class="text-4xl font-bold text-white">{{ course.name.charAt(0) }}</span>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">{{ course.name }}</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">{{ course.description || 'No description available.' }}</p>
+            <div class="flex justify-between items-center">
+              <span class="text-blue-600 dark:text-blue-400 hover:underline">View Course</span>
+              <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 text-xs py-1 px-2 rounded-full">
+                {{ course.topics?.length || 0 }} {{ (course.topics?.length || 0) === 1 ? 'Topic' : 'Topics' }}
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!loading && !error && courses.length === 0" class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 text-center">
+      <h2 class="text-xl font-medium text-gray-900 dark:text-white">No courses available</h2>
+      <p class="text-gray-600 dark:text-gray-300">Check back later for new content.</p>
+    </div>
+  </div>
+</div>
