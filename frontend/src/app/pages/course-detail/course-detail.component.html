@@ -19,7 +19,7 @@
           <p class="text-gray-600 dark:text-gray-400">{{ course.description || '' }}</p>
         </div>
         <div *ngIf="getCourseImage()" class="md:ml-6 mt-4 md:mt-0">
-          <img [src]="getCourseImage()" [alt]="course.name" class="w-full md:w-48 h-auto rounded-lg shadow-md">
+          <img [src]="getCourseImage()" [alt]="course.name" class="w-12 h-auto rounded-lg shadow-md">
         </div>
       </div>
 
@@ -83,9 +83,7 @@
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{{ selectedTopic.title }}</h2>
             
             <!-- Markdown content -->
-            <div class="prose dark:prose-invert max-w-none">
-              <div [innerHTML]="markdownService.parse(selectedTopic.content)"></div>
-            </div>
+            <div class="prose dark:prose-invert max-w-none border-t text-gray-700 dark:text-gray-50 border-gray-200 dark:border-gray-700 pt-4 overflow-auto wrap-break-word" [innerHTML]="markdownService.parse(selectedTopic.content)"></div>
           </div>
         </div>
       </div>

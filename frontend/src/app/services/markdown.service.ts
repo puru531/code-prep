@@ -3,6 +3,9 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import escape from 'lodash/escape';
+import hljs from 'highlight.js';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +22,12 @@ export class MarkdownService {
       pedantic: false
     });
 
-    // Customize code block rendering to include language class for syntax highlighting
-    this.renderer.code = ({ text, lang, escaped }: { text: string, lang?: string, escaped?: boolean }) => {
-      const language = lang || 'plaintext';
-      return `<pre><code class="hljs language-${language}">${text}</code></pre>`;
+    this.renderer.code = ({ text, lang = 'plaintext' }) => {
+      const validLang = hljs.getLanguage(lang) ? lang : 'plaintext';
+      const highlighted = hljs.highlight(text, { language: validLang }).value;
+      return `<pre><code class="hljs language-${validLang}">${highlighted}</code></pre>`;
     };
+
   }
 
   /**

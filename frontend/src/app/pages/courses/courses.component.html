@@ -17,7 +17,7 @@
     </div>
 
     <!-- Courses grid -->
-    <div *ngIf="!loading && courses.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div *ngIf="!loading && courses.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       <div *ngFor="let course of courses" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl">
         <a [routerLink]="['/courses', course.id]" class="block">
           <div class="relative h-48 overflow-hidden">
@@ -25,7 +25,7 @@
             <img *ngIf="getImageUrl(course)" 
                  [src]="getImageUrl(course)"
                  [alt]="course.name"
-                 class="w-full h-full object-cover">
+                 class="h-full mx-auto py-2 object-cover">
             
             <!-- Fallback for no image -->
             <div *ngIf="!getImageUrl(course)" class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">

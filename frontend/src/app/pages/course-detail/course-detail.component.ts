@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService, Course, Topic } from '../../services/course.service';
 import { MarkdownService } from '../../services/markdown.service';
 import { switchMap } from 'rxjs/operators';
+import hljs from 'highlight.js';
 
 @Component({
   selector: 'cp-course-detail',
@@ -12,7 +13,7 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.scss'
 })
-export class CourseDetailComponent implements OnInit {
+export class CourseDetailComponent implements OnInit, AfterViewInit{
   course: Course | undefined;
   topics: Topic[] = [];
   selectedTopic: Topic | undefined;
@@ -22,7 +23,8 @@ export class CourseDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private courseService: CourseService,
-    public markdownService: MarkdownService
+    public markdownService: MarkdownService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
@@ -74,6 +76,12 @@ export class CourseDetailComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      hljs.highlightAll(); // only run Highlight.js in the browser
+    }
   }
 
   selectTopic(topic: Topic): void {

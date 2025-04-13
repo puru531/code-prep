@@ -54,3 +54,27 @@ body:not(.dark) {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Override heading styles specifically for markdown */
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  font-size: 2rem; /* You can adjust the size as needed */
+  font-weight: 600; /* Boldness for headings */
+  margin-top: 1rem; /* Add some spacing */
+  margin-bottom: 1rem;
+}
+
+/* Optional: Customize different heading levels */
+.prose h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.prose h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.prose h3 {
+  font-size: 2rem;
+  font-weight: semi-bold;
+}

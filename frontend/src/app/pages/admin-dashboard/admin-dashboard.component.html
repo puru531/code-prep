@@ -103,13 +103,13 @@
           
           <ul *ngIf="!loading && courses.length > 0" class="divide-y divide-gray-200 dark:divide-gray-700">
             <li *ngFor="let course of courses" 
-                class="p-3 hover:bg-gray-50 dark:hover:bg-gray-750 cursor-pointer" 
+                class="p-3 hover:bg-gray-50 dark:hover:bg-gray-750 cursor-pointer text-gray-700 dark:text-gray-200 dark:hover:text-gray-700" 
                 [class.bg-blue-50]="selectedCourse?.id === course.id"
                 [class.dark:bg-gray-900]="selectedCourse?.id === course.id"
                 (click)="selectCourse(course)">
               <div class="flex justify-between items-center">
                 <div>
-                  <h3 class="font-medium text-gray-700 truncate max-w-xs dark:text-gray-200">{{ course.name }}</h3>
+                  <h3 class="font-medium truncate max-w-xs ">{{ course.name }}</h3>
                   <span class="text-sm text-gray-500 dark:text-gray-400">{{ course.topics?.length || 0 }} topics</span>
                 </div>
                 <div class="flex gap-2">
@@ -160,11 +160,11 @@
             
             <ul *ngIf="!loading && topics.length > 0" class="divide-y divide-gray-200 dark:divide-gray-700">
               <li *ngFor="let topic of topics" 
-                  class="p-3 hover:bg-gray-50 dark:hover:bg-gray-750 px-2 cursor-pointer rounded" 
+                  class="p-3 hover:bg-gray-50 dark:hover:bg-gray-750 px-2 cursor-pointer rounded text-gray-700 dark:text-gray-200 dark:hover:text-gray-700" 
                   [class.bg-blue-50]="selectedTopic?.id === topic.id"
                   [class.dark:bg-gray-900]="selectedTopic?.id === topic.id"
                   (click)="selectTopic(topic)">
-                <div class="font-medium text-gray-700 dark:text-gray-200">{{ topic.title }}</div>
+                <div class="font-medium">{{ topic.title }}</div>
                 <div class="text-sm text-gray-500 dark:text-gray-400">
                   {{ topic.likes }} likes
                 </div>
@@ -257,9 +257,7 @@
             </div>
 
             <!-- Markdown preview -->
-            <div class="prose dark:prose-invert max-w-none border-t text-gray-700 dark:text-gray-50 border-gray-200 dark:border-gray-700 pt-4">
-              <div class="overflow-auto wrap-break-word" [innerHTML]="markdownService.parse(selectedTopic.content)"></div>
-            </div>
+            <div class="prose dark:prose-invert max-w-none border-t text-gray-700 dark:text-gray-50 border-gray-200 dark:border-gray-700 pt-4 overflow-auto wrap-break-word" [innerHTML]="markdownService.parse(selectedTopic.content)"></div>
           </div>
         </div>
       </div>
